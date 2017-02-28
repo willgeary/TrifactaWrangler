@@ -1,0 +1,78 @@
+splitrows col: column1 on: '\n' quote: '\"'
+split col: column1 on: '||' limit: 4
+replace col: column2 with: '' on: `[[` global: true
+replace col: column2 with: '' on: `]]` global: true
+delete row: matches([column2], `!`)
+delete row: matches([column2], `==`)
+delete row: matches([column2], `\{\| class="wikitable"`)
+delete row: matches([column2], `\|- style=`)
+delete row: matches([column2], `\|-`)
+delete row: matches([column2], `\| rowspan`)
+split col: column6 on: `publisher=`
+split col: column7 on: `{delim-ws}` after: `{url}` before: `a`
+delete row: matches([column2], `\| style="text-align:`)
+delete row: matches([column2], `\|\}`)
+replace col: column2 with: '' on: `\| \'\'` global: true
+replace col: column2 with: '' on: `\'\' ` global: true
+replace col: column3 with: '' on: ` [[` global: true
+replace col: column3 with: '' on: `]] ` global: true
+split col: column2 on: `\(film\)`
+drop col: column9
+split col: column7 on: `\(`
+drop col: column9
+rename col: column2 to: 'newColumnName'
+replace col: column5 with: '' on: `[[` global: true
+split col: column5 on: `film\|`
+replace col: column2 with: '' on: `]]` global: true
+drop col: column7
+extractlist col: column2 on: `{any}+` delimiter: `, ` as: 'column5'
+delete row: sourcerownumber() == 2
+split col: column2 on: `{delim}` limit: 2
+drop col: column7
+drop col: column10
+split col: column4 on: `\(director/screenwriter\);`
+split col: column2 on: `\(director\);`
+split col: column4 on: ` \(director/screenplay\);`
+split col: column2 on: ` \(director\)`
+split col: column4 on: `\|`
+replace col: column2 with: '' on: `[[` global: true
+replace col: column2 with: '' on: `]] ` global: true
+replace col: column2 with: '' on: `]]` global: true
+drop col: column13
+split col: column2 on: ', ' limit: 3
+replace col: column4 with: '' on: `\(cinematographer\)` global: true
+split col: column4 on: `\(director/Screenplay\);`
+split col: column2 on: ` and `
+split col: column4 on: `\(Director\);`
+replace col: column2 with: '' on: `\(animator\)` global: true
+split col: column2 on: `\(directors\);`
+delete row: sourcerownumber() == 536
+replace col: column4 with: '' on: `\(TV producer\)` global: true
+replace col: column4 with: '' on: `\(artist\)` global: true
+split col: column4 on: `; `
+drop col: column20
+delete row: matches([newColumnName], `\|\+ "align=bottom"`)
+drop col: column19
+drop col: column18
+drop col: column17
+drop col: column16
+drop col: column13
+drop col: column14
+drop col: column15
+drop col: column12
+drop col: column11
+drop col: column10
+drop col: column7
+drop col: column5
+drop col: column1
+drop col: column8
+split col: column6 on: `{delim-ws}`
+replace col: column1 with: '' on: `www.` global: true
+replace col: column1 with: '' on: `http://` global: true
+drop col: column4
+delete row: sourcerownumber() == 179
+split col: column1 after: `m` before: `=`
+delete row: sourcerownumber() == 358
+replace col: column4 with: '' on: `/Film\}\}</ref></center>` global: true
+replace col: column4 with: '' on: `/Film` global: true
+drop col: column5
